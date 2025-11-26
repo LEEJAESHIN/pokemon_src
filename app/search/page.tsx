@@ -1,7 +1,7 @@
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { Search } from "lucide-react";
-import { searchPokemon, getPokemonSpecies, getKoreanName } from "@/lib/pokemon-api";
+import { searchPokemon, getPokemonSpecies, getKoreanName, getCompetitiveStats } from "@/lib/pokemon-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -14,6 +14,7 @@ export default async function SearchPage({
   const query = params.q || "";
   let pokemon = null;
   let koreanName = "";
+  let competitiveStats = null;
 
   if (query) {
     pokemon = await searchPokemon(query);
@@ -22,6 +23,8 @@ export default async function SearchPage({
       if (species) {
         koreanName = getKoreanName(species);
       }
+      // Pokemoem 배틀 통계 가져오기 (한국 배틀 데이터)
+      competitiveStats = await getCompetitiveStats(pokemon.id);
     }
   }
 
@@ -123,6 +126,82 @@ export default async function SearchPage({
               </div>
             </CardContent>
           </Card>
+        )}
+
+        {pokemon && competitiveStats && (
+          <div className="mt-6 space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">대전 추천 정보 (한국 랭크배틀)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold mb-3 text-lg">타입</h4>
+                    <div className="flex gap-2">
+                      {pokemon.types.map((type) => (
+                        <Badge key={type.type.name} variant="secondary" className="text-base">
+                          {type.type.name}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold mb-3 text-lg">추천 특성</h4>
+                    <div className="space-y-2">
+                      {competitiveStats.abilities.map((ability, idx) => (
+                        <div key={idx} className="flex items-center justify-between">
+                          <span className="capitalize">{ability.name}</span>
+                          <span className="text-sm text-gray-500">{ability.usage.toFixed(1)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold mb-3 text-lg">추천 성격</h4>
+                    <div className="space-y-2">
+                      {competitiveStats.natures.map((nature, idx) => (
+                        <div key={idx} className="flex items-center justify-between">
+                          <span className="capitalize">{nature.name}</span>
+                          <span className="text-sm text-gray-500">{nature.usage.toFixed(1)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold mb-3 text-lg">추천 도구</h4>
+                    <div className="space-y-2">
+                      {competitiveStats.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between">
+                          <span className="capitalize">{item.name}</span>
+                          <span className="text-sm text-gray-500">{item.usage.toFixed(1)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl">추천 기술</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {competitiveStats.moves.map((move, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <span className="capitalize font-medium">{move.name}</span>
+                      <span className="text-sm text-gray-500">{move.usage.toFixed(1)}%</span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         )}
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use client'
 import { Input } from "@/components/ui/input";
 import { Search, ArrowRight } from "lucide-react";
-import { useMemo  , useState } from "react";
+import { useMemo, useState } from "react";
 import { getChoseong } from 'es-hangul';
 import Image from "next/image";
 import pokeList from '../lib/data/pokemon-name-map.json'
@@ -47,7 +47,6 @@ export default function Home() {
         className="flex min-h-screen w-full max-w-3xl flex-col items-center py-32 px-16 bg-cover bg-no-repeat dark:bg-black sm:items-start"
         style={{ backgroundPosition: '51% 70%' }}
       >
-
         <div className="flex w-full items-center justify-center mb-8">
           <Image src="/PokeSrc_logo.png" alt="PokéSrc Logo" width={300} height={100} priority />
         </div>

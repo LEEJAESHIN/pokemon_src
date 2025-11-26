@@ -4,7 +4,11 @@
       "Bash(npx shadcn:*)",
       "Bash(dir:*)",
       "Bash(npm run dev:*)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(curl:*)",
+      "Bash(for id in 275 640 287 1885 211 297 158 210 234 203)",
+      "Bash(do:*)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
