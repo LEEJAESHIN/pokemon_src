@@ -4,6 +4,7 @@ import pokemonNameMap from "./data/pokemon-name-map.json";
 
 const BASE_URL = "https://pokeapi.co/api/v2";
 const POKEMOEM_API_URL = "https://api.pokemoem.com/battlestat/details/today";
+const POKEMOEM_ITEM_API_URL = "https://api.pokemoem.com/pokedex/item";
 
 // 한글로 포켓몬 이름 찾기 (JSON 파일 사용 - 즉시 반환!)
 export function searchPokemonByKoreanName(koreanName: string): string | null {
@@ -83,6 +84,22 @@ async function getKoreanNameFromPokeAPI(
   }
 }
 
+// Pokemoem API에서 아이템 한글 이름 가져오기
+async function getItemNameFromPokemoem(itemId: string): Promise<string> {
+  try {
+    const response = await fetch(`${POKEMOEM_ITEM_API_URL}/${itemId}`, {
+      next: { revalidate: 86400 }, // 24시간 캐시
+    });
+    if (!response.ok) return `Item ${itemId}`;
+    const data = await response.json();
+
+    // 한글 이름 우선, 없으면 영어 이름
+    return data.nameko || data.name || `Item ${itemId}`;
+  } catch {
+    return `Item ${itemId}`;
+  }
+}
+
 // Pokemoem 배틀 통계 가져오기 (한국 배틀 데이터)
 export async function getCompetitiveStats(
   pokemonId: number
@@ -112,11 +129,13 @@ export async function getCompetitiveStats(
         usage: parseFloat(item.val),
       }));
 
-    // 상위 2개 도구 (ID를 그대로 사용 - 아이템 매핑이 다를 수 있음)
-    const items = data.items.slice(0, 2).map((item) => ({
-      name: `Item ${item.id}`, // 추후 매핑 테이블 추가 가능
-      usage: parseFloat(item.val),
-    }));
+    // 상위 2개 도구 (ID -> 한글 이름 변환)
+    const itemsPromises = data.items
+      .slice(0, 2)
+      .map(async (item) => ({
+        name: await getItemNameFromPokemoem(item.id),
+        usage: parseFloat(item.val),
+      }));
 
     // 상위 4개 기술 (ID -> 한글 이름 변환)
     const movesPromises = data.moves
@@ -126,9 +145,10 @@ export async function getCompetitiveStats(
         usage: parseFloat(item.val),
       }));
 
-    const [abilities, natures, moves] = await Promise.all([
+    const [abilities, natures, items, moves] = await Promise.all([
       Promise.all(abilitiesPromises),
       Promise.all(naturesPromises),
+      Promise.all(itemsPromises),
       Promise.all(movesPromises),
     ]);
 
