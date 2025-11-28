@@ -9,7 +9,8 @@
       "Bash(for id in 275 640 287 1885 211 297 158 210 234 203)",
       "Bash(do:*)",
       "Bash(done)",
-      "Bash(for id in 287 297 275)"
+      "Bash(for id in 287 297 275)",
+      "Bash(mv:*)"
     ],
     "deny": [],
     "ask": []

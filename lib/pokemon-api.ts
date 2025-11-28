@@ -1,5 +1,5 @@
-import { Pokemon, PokemonSpecies } from "./types/pokemon";
-import { PokemoemBattleStats, CompetitiveRecommendations } from "./types/pokemoem";
+import { Pokemon, PokemonSpecies } from "./api-types/pokemon";
+import { PokemoemBattleStats, CompetitiveRecommendations } from "./api-types/pokemoem";
 import pokemonNameMap from "./data/pokemon-name-map.json";
 
 const BASE_URL = "https://pokeapi.co/api/v2";

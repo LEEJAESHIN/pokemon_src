@@ -4,10 +4,9 @@ import { Search } from "lucide-react";
 import { searchPokemon, getPokemonSpecies, getKoreanName, getCompetitiveStats } from "@/lib/pokemon-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getTypeColor, getKoreanTypeName } from "@/lib/type-colors";
-import { getDefensiveEffectiveness, getOffensiveEffectiveness } from "@/lib/type-effectiveness";
-import { getKoreanStatName } from "@/lib/stat-names";
-import { analyzePokemonRole, calculateTotalStats } from "@/lib/pokemon-role";
+import { getTypeColor, getKoreanTypeName } from "@/lib/pokemon-types/type-colors";
+import { getDefensiveEffectiveness, getOffensiveEffectiveness } from "@/lib/pokemon-types/type-effectiveness";
+import { getKoreanStatName, analyzePokemonRole, calculateTotalStats } from "@/lib/utils";
 
 export default async function SearchPage({
   searchParams,
