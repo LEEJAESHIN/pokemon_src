@@ -63,7 +63,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <main
-        className="flex min-h-screen w-full max-w-3xl flex-col items-center py-32 px-16 bg-cover bg-no-repeat dark:bg-black sm:items-start"
+        className="flex min-h-screen w-full max-w-3xl flex-col items-center pt-32 px-16 bg-cover bg-no-repeat dark:bg-black sm:items-start"
       >
         <div className="flex w-full items-center justify-center mb-8">
           <Image src="/PokeSrc_logo.png" alt="PokéSrc Logo" width={270} height={90} priority />

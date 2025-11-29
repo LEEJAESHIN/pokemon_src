@@ -1,6 +1,5 @@
-import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import { Search } from "lucide-react";
+import Link from "next/link";
 import { searchPokemon, getPokemonSpecies, getKoreanName, getCompetitiveStats } from "@/lib/pokemon-api";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -35,28 +34,15 @@ export default async function SearchPage({
     <div className="flex min-h-screen flex-col items-center bg-zinc-50 font-sans dark:bg-black">
       <div className="w-full max-w-3xl px-8 py-8">
         <div className="flex items-center justify-center mb-8">
-          <Image
-            src="/PokeSrc_logo.png"
-            alt="PokéSrc Logo"
-            width={200}
-            height={66}
-            priority
-          />
-        </div>
-
-        <div className="relative w-full mb-8">
-          <Search
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-            size={20}
-          />
-          <form action="/search" method="get">
-            <Input
-              name="q"
-              defaultValue={query}
-              className="bg-white rounded-full px-6 py-3 pl-12 w-full"
-              placeholder="포켓몬 이름을 검색하세요."
+          <Link href="/">
+            <Image
+              src="/PokeSrc_logo.png"
+              alt="PokéSrc Logo"
+              width={200}
+              height={66}
+              priority
             />
-          </form>
+          </Link>
         </div>
 
         {!query ? (
@@ -231,7 +217,7 @@ export default async function SearchPage({
                                         border: 'none'
                                       }}
                                     >
-                                      {getKoreanTypeName(type)} ×{mult}
+                                      {getKoreanTypeName(type)}
                                     </Badge>
                                   ))}
                                 </div>
@@ -251,7 +237,7 @@ export default async function SearchPage({
                                         border: 'none'
                                       }}
                                     >
-                                      {getKoreanTypeName(type)} ×{mult}
+                                      {getKoreanTypeName(type)}
                                     </Badge>
                                   ))}
                                 </div>
@@ -271,7 +257,7 @@ export default async function SearchPage({
                                         border: 'none'
                                       }}
                                     >
-                                      {getKoreanTypeName(type)} ×0
+                                      {getKoreanTypeName(type)}
                                     </Badge>
                                   ))}
                                 </div>
@@ -297,7 +283,7 @@ export default async function SearchPage({
                           <>
                             {superEffective.length > 0 && (
                               <div>
-                                <p className="text-sm text-gray-600 mb-1">효과 굉장</p>
+                                <p className="text-sm text-gray-600 mb-1">효과 굉장(자속)</p>
                                 <div className="flex flex-wrap gap-1">
                                   {superEffective.map(([type, mult]) => (
                                     <Badge
@@ -309,7 +295,7 @@ export default async function SearchPage({
                                         border: 'none'
                                       }}
                                     >
-                                      {getKoreanTypeName(type)} ×{mult}
+                                      {getKoreanTypeName(type)}
                                     </Badge>
                                   ))}
                                 </div>
